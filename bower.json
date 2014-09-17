@@ -1,0 +1,28 @@
+{
+  "name": "DD-ColorPicker",
+  "version": "0.0.1",
+  "homepage": "https://github.com/DavideMontersino/DD-ColorPicker",
+  "authors": [
+    "Davide Orazio Montersino <davide@davidemontersino.com>"
+  ],
+  "description": "A color picker that allows you to choose only amongst a set of color (i.e. Pantone colors)",
+  "main": "js/dd-colorpicker.js",
+  "keywords": [
+    "Color",
+    "Picker",
+    "Json",
+    "Pantone",
+    "Set"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "d3": "~3.4.11"
+  }
+}
