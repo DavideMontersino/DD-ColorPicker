@@ -79,7 +79,7 @@
       d3.json("TPX.json", function(error, json) {
         if (error) return console.warn(error);
         
-        window.colorPicker = new DDColorPicker('init',{
+        window.colorPicker = new DDColorPicker({
           elem:'#dd-color-picker',
           data:json,
           onSelectedChanged: function(selectedObjects){
