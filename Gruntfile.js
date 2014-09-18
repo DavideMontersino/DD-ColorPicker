@@ -76,6 +76,10 @@ module.exports = function(grunt) {
       gruntfile: {
         files: '<%= jshint.gruntfile.src %>',
         tasks: ['jshint:gruntfile']
+      },
+      jshint: {
+        files: 'js/**/*.js',
+        tasks: ['jshint']
       }//,
       //lib_test: {
       //  files: '<%= jshint.lib_test.src %>',
