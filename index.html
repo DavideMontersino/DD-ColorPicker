@@ -51,7 +51,7 @@
               <a href="#" id="dd-color-picker-open" class="btn btn-lg btn-default">Try me</a>
             </p>
             <div id="dd-color-picker"></div>
-            
+
           </div>
 
           <div class="mastfoot">
@@ -79,7 +79,13 @@
       d3.json("TPX.json", function(error, json) {
         if (error) return console.warn(error);
         
-        DDColorPicker('#dd-color-picker',{data:json});
+        window.colorPicker = new DDColorPicker('init',{
+          elem:'#dd-color-picker',
+          data:json,
+          onSelectedChanged: function(selectedObjects){
+            console.log(selectedObjects);
+          }
+        });
       });
     </script>
     
