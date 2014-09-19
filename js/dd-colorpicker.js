@@ -26,8 +26,8 @@ function DDColorPicker(method,value){
 			.attr("y", function(d,index){return ( (index % $this.settings.rows) * $this.settings.rowHeight) + $this.settings.margin; })
 			.style('stroke-width',function(d){return (d.selected === undefined | d.selected === false) ? '0' : '1';})
 			.style('stroke',d3.rgb(0,0,0))
-			.attr("width", this.settings.colWidth)
-		    .attr("height", this.settings.rowHeight);	
+			.attr("width", function(d){return d.settings.colWidth;})
+		    .attr("height", function(d){return d.settings.rowHeight;});	
 	};
 		
 	this.ResetGrid = function(){
@@ -35,8 +35,10 @@ function DDColorPicker(method,value){
 		this.settings.cols = Math.ceil(this.settings.data.length / this.settings.rows);
 		this.settings.rowHeight = (this.settings.height - this.settings.margin*2) / this.settings.rows;
 		this.settings.colWidth = (this.settings.width - this.settings.margin * 2) / this.settings.cols;
+		
 		this.svg.attr('width',this.settings.width)
 			.attr('height',this.settings.height)
+		
 	};
 	//constructor pattern from http://stackoverflow.com/questions/1114024/constructors-in-javascript-objects
 	(function(that, settings){
@@ -47,7 +49,10 @@ function DDColorPicker(method,value){
 		
 		that.ResetGrid();
 
-		var nA = that.settings.data;
+		var nA = that.settings.data.map(function(x){
+			x.settings = that.settings;
+			return x;
+		});
 
 		var $ddColorPicker = that;
 
