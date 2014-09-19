@@ -35,22 +35,22 @@ function DDColorPicker(method,value){
 		this.settings.cols = Math.ceil(this.settings.data.length / this.settings.rows);
 		this.settings.rowHeight = (this.settings.height - this.settings.margin*2) / this.settings.rows;
 		this.settings.colWidth = (this.settings.width - this.settings.margin * 2) / this.settings.cols;
-		console.log('setting up a grid of ' + this.settings.rows + ' rows and ' + this.settings.cols + ' cols');
-		console.dir(this.settings);
+		this.svg.attr('width',this.settings.width)
+			.attr('height',this.settings.height)
 	};
 	//constructor pattern from http://stackoverflow.com/questions/1114024/constructors-in-javascript-objects
 	(function(that, settings){
 		that.extend(that.settings, settings);
+		
+		that.svg = d3.select(that.settings.elem)
+			.append("svg");
+		
 		that.ResetGrid();
 
 		var nA = that.settings.data;
 
 		var $ddColorPicker = that;
 
-		that.svg = d3.select(that.settings.elem)
-			.append("svg")
-			.attr('width',that.settings.width)
-			.attr('height',that.settings.height);
 		
 		that.g = that.svg.append("g");
 		
@@ -128,13 +128,26 @@ function DDColorPicker(method,value){
 		return this.settings.data.filter(function(item){return item.selected; });
 	};
 
-	this.setRows = function(value){
-		this.settings.rows = value;
+	this.setSetting = function(setting, value){
+		this.settings[setting] = value;
 		this.ResetGrid();
 		var rect = this.g.selectAll("rect");
 		this.updateRect(rect);
 	}
-	//execute calles method
+
+	this.setRows = function(value){
+		this.setSetting('rows',value);
+	}
+
+	this.setHeight = function(value){
+		this.setSetting('height',value);
+	}
+
+	this.setWidth = function(value){
+		this.setSetting('width',value);
+	}
+
+	//execute called method
 	
 	if(typeof(method) === "string"){
 	 this[method](value);
