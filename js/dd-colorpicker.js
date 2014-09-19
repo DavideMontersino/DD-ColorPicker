@@ -90,6 +90,10 @@ function DDColorPicker(method){
 			div
 				.transition()
 				.style('fill',function(d){return d3.rgb(d.rgb[0],d.rgb[1],d.rgb[2]);});
+
+			if ($ddColorPicker.settings.onHoverChanged !== undefined){
+				$ddColorPicker.settings.onHoverChanged(data[0]);
+			}
 			
 		});
 		
