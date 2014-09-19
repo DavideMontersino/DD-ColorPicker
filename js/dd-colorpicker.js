@@ -21,6 +21,7 @@ function DDColorPicker(method,value){
 	this.updateRect = function(rectangle){
 		var $this = this;
 		rectangle
+			.transition()
 			.style("fill", function(data){return d3.rgb(data.rgb[0],data.rgb[1],data.rgb[2]);})
 		    .attr("x", function(d,index){return (Math.floor(index/$this.settings.rows) * $this.settings.colWidth) + $this.settings.margin; })
 			.attr("y", function(d,index){return ( (index % $this.settings.rows) * $this.settings.rowHeight) + $this.settings.margin; })
