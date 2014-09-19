@@ -15,8 +15,7 @@ function DDColorPicker(method,value){
 	};
 
 	this.enterRect = function(rect){
-		rect.enter().append("rect")
-		    ;
+		rect.enter().append("rect");
 	};
 
 	this.updateRect = function(rectangle){
@@ -130,15 +129,9 @@ function DDColorPicker(method,value){
 	};
 
 	this.setRows = function(value){
-		console.log('inside setRows');
 		this.settings.rows = value;
-		console.log('133 setRows');
 		this.ResetGrid();
-		console.log('135 setRows');
 		var rect = this.g.selectAll("rect");
-		console.log('137 setRows');
-		//this.enterRect(rect);
-		console.log('139 setRows');
 		this.updateRect(rect);
 	}
 	//execute calles method
