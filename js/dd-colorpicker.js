@@ -129,6 +129,18 @@ function DDColorPicker(method,value){
 		return this.settings.data.filter(function(item){return item.selected; });
 	};
 
+	this.setRows = function(value){
+		console.log('inside setRows');
+		this.settings.rows = value;
+		console.log('133 setRows');
+		this.ResetGrid();
+		console.log('135 setRows');
+		var rect = this.g.selectAll("rect");
+		console.log('137 setRows');
+		//this.enterRect(rect);
+		console.log('139 setRows');
+		this.updateRect(rect);
+	}
 	//execute calles method
 	
 	if(typeof(method) === "string"){
