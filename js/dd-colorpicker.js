@@ -95,11 +95,15 @@ function DDColorPicker(method){
 			
 			d.selected = d.selected === undefined ? true : !d.selected;
 			updateRect(rect);
-			
+			d3.event.stopPropagation();
 			if ($ddColorPicker.settings.onSelectedChanged !== undefined){
 				$ddColorPicker.settings.onSelectedChanged($ddColorPicker.selectedData());
 			}
 		});
+
+		that.svg.on('click',function(){
+			d3.event.stopPropagation();
+		})
 		
 	}(this,method));
 
