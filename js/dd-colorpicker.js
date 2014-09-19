@@ -78,16 +78,19 @@ function DDColorPicker(method){
 				.attr('text-anchor','end');
 
 			//Update the background
-			var div = $ddColorPicker.svg.selectAll('#colorSelected')
-				.data(data)
-				.style('fill',function(d){return d3.rgb(d.rgb[0],d.rgb[1],d.rgb[2]);});
-			
+			var div = $ddColorPicker.svg.selectAll('#colorSelected').data(data);
+
 			//Create the background
 			div.enter()
 				.insert('rect',':first-child')
 				.attr('id','colorSelected')
 				.attr('height',that.settings.height)
 				.attr('width',that.settings.width);
+
+			div
+				.transition()
+				.style('fill',function(d){return d3.rgb(d.rgb[0],d.rgb[1],d.rgb[2]);});
+			
 		});
 		
 
