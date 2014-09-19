@@ -1,6 +1,6 @@
 /* global d3 */
 /* exported DDColorPicker*/
-function DDColorPicker(method){
+function DDColorPicker(method,value){
 	'use strict';
 
 	this.settings = {
@@ -14,14 +14,37 @@ function DDColorPicker(method){
 		for (var attrname in src) { dst[attrname] = src[attrname]; }
 	};
 
+	this.enterRect = function(rect){
+		rect.enter().append("rect")
+		    ;
+	};
+
+	this.updateRect = function(rectangle){
+		var $this = this;
+		rectangle
+			.style("fill", function(data){return d3.rgb(data.rgb[0],data.rgb[1],data.rgb[2]);})
+		    .attr("x", function(d,index){return (Math.floor(index/$this.settings.rows) * $this.settings.colWidth) + $this.settings.margin; })
+			.attr("y", function(d,index){return ( (index % $this.settings.rows) * $this.settings.rowHeight) + $this.settings.margin; })
+			.style('stroke-width',function(d){return (d.selected === undefined | d.selected === false) ? '0' : '1';})
+			.style('stroke',d3.rgb(0,0,0))
+			.attr("width", this.settings.colWidth)
+		    .attr("height", this.settings.rowHeight);	
+	};
+		
+	this.ResetGrid = function(){
+
+		this.settings.cols = Math.ceil(this.settings.data.length / this.settings.rows);
+		this.settings.rowHeight = (this.settings.height - this.settings.margin*2) / this.settings.rows;
+		this.settings.colWidth = (this.settings.width - this.settings.margin * 2) / this.settings.cols;
+		console.log('setting up a grid of ' + this.settings.rows + ' rows and ' + this.settings.cols + ' cols');
+		console.dir(this.settings);
+	};
 	//constructor pattern from http://stackoverflow.com/questions/1114024/constructors-in-javascript-objects
 	(function(that, settings){
 		that.extend(that.settings, settings);
-		var nA = that.settings.data;
+		that.ResetGrid();
 
-		that.settings.cols = nA.length / that.settings.rows;
-		that.settings.rowHeight = (that.settings.height - that.settings.margin*2) / that.settings.rows;
-		that.settings.colWidth = (that.settings.width - that.settings.margin * 2) / that.settings.cols;
+		var nA = that.settings.data;
 
 		var $ddColorPicker = that;
 
@@ -37,22 +60,10 @@ function DDColorPicker(method){
 			.data(nA);
 		
 		// Enter…
-		rect.enter().append("rect")
-		    .attr("width", that.settings.colWidth)
-		    .attr("height", that.settings.rowHeight);
-			
+		that.enterRect(rect);
 
 		// Update..
-		var updateRect = function(rectangle){
-			rectangle
-			.style("fill", function(data){return d3.rgb(data.rgb[0],data.rgb[1],data.rgb[2]);})
-		    .attr("x", function(d,index){return (Math.floor(index/that.settings.rows) * that.settings.colWidth) + that.settings.margin; })
-			.attr("y", function(d,index){return ( (index % that.settings.rows) * that.settings.rowHeight) + that.settings.margin; })
-			.style('stroke-width',function(d){return (d.selected === undefined | d.selected === false) ? '0' : '1';})
-			.style('stroke',d3.rgb(0,0,0));	
-		};
-		
-		updateRect(rect);
+		that.updateRect(rect);
 
 		// Exit…
 		rect.exit().remove();
@@ -101,7 +112,7 @@ function DDColorPicker(method){
 		rect.on('click',function(d){
 			
 			d.selected = d.selected === undefined ? true : !d.selected;
-			updateRect(rect);
+			$ddColorPicker.updateRect(rect);
 			d3.event.stopPropagation();
 			if ($ddColorPicker.settings.onSelectedChanged !== undefined){
 				$ddColorPicker.settings.onSelectedChanged($ddColorPicker.selectedData());
@@ -121,6 +132,6 @@ function DDColorPicker(method){
 	//execute calles method
 	
 	if(typeof(method) === "string"){
-	 this[method]();
+	 this[method](value);
 	}
 }
