@@ -17,6 +17,15 @@ function DDColorPicker(method,value){
 	this.enterRect = function(rect){
 		rect.enter().append("rect");
 	};
+	
+	// From http://www.nbdtech.com/Blog/archive/2008/04/27/Calculating-the-Perceived-Brightness-of-a-Color.aspx
+	// returns a number in the rage of 0 (black) to 255 (White) and to set the foreground color based on the Brightness method
+	this.colorBrightness = function(c){
+		return Math.sqrt(
+		      c[0] * c[0] * .241 + 
+		      c[1] * c[1] * .691 + 
+		      c[2] * c[2] * .068);
+	};
 
 	this.updateRect = function(rectangle){
 		var $this = this;
@@ -81,8 +90,11 @@ function DDColorPicker(method,value){
 			var text = $ddColorPicker.svg.selectAll("#colorNameText")
 				.data(data)
 				.text(function(d){return d.fullname;})
-				.attr('fill',function(d){return d.Lab[0] > 50 ? d3.rgb(4,4,4) : d3.rgb(251,251,251);});
+				.attr('fill',function(d){
+					return (that.colorBrightness(d.rgb) > 127 ) ? d3.rgb(4,4,4) : d3.rgb(251,251,251);
+				});
 
+				
 			//Create the text element
 			text
 				.enter()
