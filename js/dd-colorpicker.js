@@ -68,9 +68,8 @@ function DDColorPicker(method,value){
 		selectedPreview.on('click',function(data){
 			data.selected = false; //it's always true if this element is present
 			$this.updateRect();
-
 			if ($this.settings.onSelectedChanged !== undefined){
-				$this.settings.onSelectedChanged(selectedData);
+				$this.settings.onSelectedChanged($this.selectedData());
 			}
 		});
 	};
